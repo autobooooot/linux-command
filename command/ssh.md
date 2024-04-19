@@ -9,13 +9,13 @@ openssh套件中的客户端连接工具
 
 ### 语法
 
-```
+```shell
 ssh(选项)(参数)
 ```
 
 ### 选项
 
-```
+```shell
 -1：强制使用ssh协议版本1；
 -2：强制使用ssh协议版本2；
 -4：强制使用IPv4地址；
@@ -27,7 +27,7 @@ ssh(选项)(参数)
 -F：指定ssh指令的配置文件；
 -f：后台执行ssh指令；
 -g：允许远程主机连接主机的转发端口；
--i：指定身份文件；
+-i：指定身份(私钥)文件；
 -l：指定连接远程服务器登录用户名；
 -N：不执行远程指令；
 -o：指定配置选项；
@@ -40,23 +40,72 @@ ssh(选项)(参数)
 
 ### 参数
 
-*   远程主机：指定要连接的远程ssh服务器；
-*   指令：要在远程ssh服务器上执行的指令。
+* 远程主机：指定要连接的远程ssh服务器；
+* 指令：要在远程ssh服务器上执行的指令。
 
 ### 实例
 
-```bash
+```shell
 # ssh 用户名@远程服务器地址
 ssh user1@172.24.210.101
 # 指定端口
 ssh -p 2211 root@140.206.185.170
 
 # ssh 大家族
-ssh user@ip -p22 # 默认用户名为当前用户名，默认端口为 22
+ssh -p 22 user@ip  # 默认用户名为当前用户名，默认端口为 22
 ssh-keygen # 为当前用户生成 ssh 公钥 + 私钥
 ssh-keygen -f keyfile -i -m key_format -e -m key_format # key_format: RFC4716/SSH2(default) PKCS8 PEM
 ssh-copy-id user@ip:port # 将当前用户的公钥复制到需要 ssh 的服务器的 ~/.ssh/authorized_keys，之后可以免密登录
 ```
+
+连接远程服务器
+
+```shell
+ssh username@remote_host
+```
+
+连接远程服务器并指定端口
+
+```shell
+ssh -p port username@remote_host
+```
+
+使用密钥文件连接远程服务器
+
+```shell
+ssh -i path/to/private_key username@remote_host
+```
+
+在本地执行远程命令
+
+```shell
+ssh username@remote_host "command"
+```
+
+在本地复制文件到远程服务器
+
+```shell
+scp path/to/local_file username@remote_host:/path/to/remote_directory
+```
+
+在远程服务器复制文件到本地
+
+```shell
+scp username@remote_host:/path/to/remote_file path/to/local_directory
+```
+
+在本地端口转发到远程服务器
+
+```shell
+ssh -L local_port:remote_host:remote_port username@remote_host
+```
+
+在远程服务器端口转发到本地
+
+```shell
+ssh -R remote_port:local_host:local_port username@remote_host
+```
+
 
 ### 背后故事
 
@@ -153,15 +202,15 @@ iptables 是一款内建在 Linux 内核的宿主防火墙。通常配置用于�
 
 如果服务器上启用了 iptables，使用下面的命令将可以允许进入的 SSH 访问，当然命令需要以 root 身份运行。
 
-```
+```shell
 iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ```
 
 如果你想将上述命令创建的规则持久地保存，在某些系统版本中，可使用如下命令：
 
-```
+```shell
 service iptables save
 ```
 
-<!-- Linux命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
+

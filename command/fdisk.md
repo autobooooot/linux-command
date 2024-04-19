@@ -7,40 +7,57 @@ fdisk
 
 **fdisk命令** 用于观察硬盘实体使用情况，也可对硬盘分区。它采用传统的问答式界面，而非类似DOS fdisk的cfdisk互动式操作界面，因此在使用上较为不便，但功能却丝毫不打折扣。
 
-### 语法  
+###  语法 
 
-```
-fdisk(选项)(参数)
-```
-
-### 选项  
-
-```
- -b <大小>             扇区大小(512、1024、2048或4096)
- -c[=<模式>]           兼容模式：“dos”或“nondos”(默认)
- -h                    打印此帮助文本
- -u[=<单位>]           显示单位：“cylinders”(柱面)或“sectors”(扇区，默认)
- -v                    打印程序版本
- -C <数字>             指定柱面数
- -H <数字>             指定磁头数
- -S <数字>             指定每个磁道的扇区数
+```shell
+fdisk [选项] <磁盘>           更改分区表
+fdisk [选项] -l [<磁盘>...]   列出分区表
 ```
 
-### 参数  
+###  选项 
+
+```shell
+
+选项：
+ -b, --sectors-size <大小>     显示扇区计数和大小
+ -B, --protect-boot            创建新标签时不要擦除 bootbits
+ -c, --compatibility[=<模式>]  模式，为“dos”或“nondos”(默认)
+ -L, --color[=<时机>]          彩色输出（auto, always 或 never）默认启用颜色
+ -l, --list                    显示分区并退出
+ -x, --list-details            类似 --list 但提供更多细节
+ -n, --noauto-pt               不要在空设备上创建默认分区表
+ -o, --output <列表>           输出列
+ -t, --type <类型>             只识别指定的分区表类型
+ -u, --units[=<单位>]          显示单位，“cylinders”柱面或“sectors”扇区(默认)
+ -s, --getsz                   以 512-字节扇区显示设备大小[已废弃]
+      -b, --bytes                   以字节为单位而非易读的格式来打印 SIZE
+      --lock[=<模式>]           使用独占设备锁（yes、no 或 nonblock）
+ -w, --wipe <模式>             擦除签名（auto, always 或 never）
+ -W, --wipe-partitions <模式>  擦除新分区的签名(auto, always 或 never)
+
+ -C, --cylinders <数字>        指定柱面数
+ -H, --heads <数字>            指定磁头数
+ -S, --sectors <数字>          指定每条磁道的扇区数
+
+ -h, --help                    显示此帮助
+ -V, --version                 显示版本
+```
+
+###  参数 
 
 设备文件：指定要进行分区或者显示分区的硬盘设备文件。
 
-### 实例  
+###  实例 
 
 首先选择要进行操作的磁盘：
 
-```
+```shell
 [root@localhost ~]# fdisk /dev/sdb
 ```
 
 输入`m`列出可以执行的命令：
 
-```
+```shell
 command (m for help): m
 Command action
    a   toggle a bootable flag
@@ -63,7 +80,7 @@ Command action
 
 输入`p`列出磁盘目前的分区情况：
 
-```
+```shell
 Command (m for help): p
 
 Disk /dev/sdb: 3221 MB, 3221225472 bytes
@@ -77,7 +94,7 @@ Units = cylinders of 16065 * 512 = 8225280 bytes
 
 输入`d`然后选择分区，删除现有分区：
 
-```
+```shell
 Command (m for help): d
 Partition number (1-4): 1
 
@@ -87,7 +104,7 @@ Selected partition 2
 
 查看分区情况，确认分区已经删除：
 
-```
+```shell
 Command (m for help): print
 
 Disk /dev/sdb: 3221 MB, 3221225472 bytes
@@ -101,7 +118,7 @@ Command (m for help):
 
 输入`n`建立新的磁盘分区，首先建立两个主磁盘分区：
 
-```
+```shell
 Command (m for help): n
 Command action
    e   extended
@@ -125,7 +142,7 @@ Last cylinder or +size or +sizeM or +sizeK (101-391, default 391): +200M  //分�
 
 确认分区建立成功：
 
-```
+```shell
 Command (m for help): p
 
 Disk /dev/sdb: 3221 MB, 3221225472 bytes
@@ -139,7 +156,7 @@ Units = cylinders of 16065 * 512 = 8225280 bytes
 
 再建立一个逻辑分区：
 
-```
+```shell
 Command (m for help): n
 Command action
    e   extended
@@ -154,7 +171,7 @@ Using default value 391
 
 确认扩展分区建立成功：
 
-```
+```shell
 Command (m for help): p
 
 Disk /dev/sdb: 3221 MB, 3221225472 bytes
@@ -169,7 +186,7 @@ Units = cylinders of 16065 * 512 = 8225280 bytes
 
 在扩展分区上建立两个逻辑分区：
 
-```
+```shell
 Command (m for help): n
 Command action
    l   logical (5 or over)
@@ -192,7 +209,7 @@ Using default value 391
 
 确认逻辑分区建立成功：
 
-```
+```shell
 Command (m for help): p
 
 Disk /dev/sdb: 3221 MB, 3221225472 bytes
@@ -215,7 +232,7 @@ Command (m for help):
 
 最后对分区操作进行保存：
 
-```
+```shell
 Command (m for help): w
 The partition table has been altered!
 
@@ -227,7 +244,7 @@ Syncing disks.
 
 在sdb1上建立ext2分区：
 
-```
+```shell
 [root@localhost ~]# mkfs.ext2 /dev/sdb1
 mke2fs 1.39 (29-May-2006)
 Filesystem label=
@@ -253,7 +270,7 @@ This filesystem will be automatically checked every 32 mounts or
 
 在sdb6上建立ext3分区：
 
-```
+```shell
 [root@localhost ~]# mkfs.ext3 /dev/sdb6
 mke2fs 1.39 (29-May-2006)
 Filesystem label=
@@ -281,7 +298,7 @@ This filesystem will be automatically checked every 32 mounts or
 
 建立两个目录`/oracle`和`/web`，将新建好的两个分区挂载到系统：
 
-```
+```shell
 [root@localhost ~]# mkdir /oracle
 [root@localhost ~]# mkdir /web
 [root@localhost ~]# mount /dev/sdb1 /oracle
@@ -290,7 +307,7 @@ This filesystem will be automatically checked every 32 mounts or
 
 查看分区挂载情况：
 
-```
+```shell
 [root@localhost ~]# df -h
 文件系统              容量  已用 可用 已用% 挂载点
 /dev/mapper/VolGroup00-LogVol00
@@ -303,7 +320,7 @@ tmpfs                 125M     0  125M   0% /dev/shm
 
 如果需要每次开机自动挂载则需要修改`/etc/fstab`文件，加入两行配置：
 
-```
+```shell
 [root@localhost ~]# vim /etc/fstab
 
 /dev/VolGroup00/LogVol00 /                       ext3    defaults        1 1
@@ -318,4 +335,4 @@ proc                    /proc                   proc    defaults        0 0
 ```
 
 
-<!-- Linux命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
+

@@ -11,13 +11,13 @@ rm
 
 ### 语法
 
-```
+```shell
 rm (选项)(参数)
 ```
 
 ### 选项
 
-```
+```shell
 -d：直接把欲删除的目录的硬连接数据删除成0，删除该目录；
 -f：强制删除文件或目录；
 -i：删除已有文件或目录之前先询问用户；
@@ -34,7 +34,7 @@ rm (选项)(参数)
 
 交互式删除当前目录下的文件test和example
 
-```
+```shell
 rm -i test example
 Remove test ?n（不删除文件test)
 Remove example ?y（删除文件example)
@@ -42,26 +42,50 @@ Remove example ?y（删除文件example)
 
 删除当前目录下除隐含文件外的所有文件和子目录
 
-```
+```shell
 # rm -r *
 ```
 
 应注意，这样做是非常危险的!
 
-**rm 命令删除文件**
+**删除当前目录下的 package-lock.json 文件**
 
-```bash
+```shell
+find .  -name "package-lock.json" -exec rm -rf {} \;
+```
+
+**查找 *.html 结尾的文件并删除**
+
+```shell
+find ./docs -name "*.html" -exec rm -rf {} \;
+```
+
+**删除当前项目下 *.html 结尾的文件**
+
+```shell
+rm -rf *.html
+```
+
+**删除当前目录下的 node_modules 目录**
+
+```shell
+find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+```
+
+**删除文件**
+
+```shell
 # rm 文件1 文件2 ...
 rm testfile.txt
 ```
 
-**rm 命令删除目录**
+**删除目录**
 
 > rm -r [目录名称]
 > -r 表示递归地删除目录下的所有文件和目录。
 > -f 表示强制删除
 
-```
+```shell
 rm -rf testdir
 rm -r testdir
 ```
@@ -70,15 +94,21 @@ rm -r testdir
 
 > rm -i [文件/目录]
 
-```
+```shell
 rm -r -i testdir
+```
+
+**批量删除 `icons` 文件夹中的子文件夹中的 data 文件夹**
+
+```shell
+rm -rf icons/**/data
 ```
 
 **rm 忽略不存在的文件或目录**
 
 > -f 选项（LCTT 译注：即 “force”）让此次操作强制执行，忽略错误提示
 
-```
+```shell
 rm -f [文件...]
 ```
 
@@ -87,7 +117,7 @@ rm -f [文件...]
 > 选项 -I，可保证在删除超过 3 个文件时或递归删除时（LCTT 译注： 如删除目录）仅提示一次确认。
 
 
-```
+```shell
 rm -I file1 file2 file3
 ```
 
@@ -96,14 +126,14 @@ rm -I file1 file2 file3
 > 当然，删除根目录（/）是 Linux 用户最不想要的操作，这也就是为什么默认 rm 命令不支持在根目录上执行递归删除操作。
 > 然而，如果你非得完成这个操作，你需要使用 --no-preserve-root 选项。当提供此选项，rm 就不会特殊处理根目录（/）了。
 
-```
-不给实例了，操作系统都被你删除了，你太坏了😆
+```shell
+不给示例了，操作系统都被你删除了，你太坏了😆
 ```
 
 **rm 显示当前删除操作的详情**
 
-```
+```shell
 rm -v [文件/目录]
 ```
 
-<!-- Linux命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
+

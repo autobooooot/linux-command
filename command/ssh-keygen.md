@@ -7,15 +7,15 @@ ssh-keygen
 
 **ssh-keygen命令** 用于为“ssh”生成、管理和转换认证密钥，它支持RSA和DSA两种认证密钥。
 
-### 语法  
+###  语法
 
-```
+```shell
 ssh-keygen(选项)
 ```
 
-### 选项  
+###  选项
 
-```
+```shell
 -b：指定密钥长度；
 -e：读取openssh的私钥或者公钥文件；
 -C：添加注释；
@@ -26,7 +26,6 @@ ssh-keygen(选项)
 -P：提供（旧）密语；
 -q：静默模式；
 -t：指定要创建的密钥类型。
+-y: 读取私钥输出公钥。
 ```
 
-
-<!-- Linux命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
